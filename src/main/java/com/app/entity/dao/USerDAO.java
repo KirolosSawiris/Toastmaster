@@ -19,7 +19,7 @@ import com.app.entity.model.User;
  *
  */
 public class USerDAO {
-	private String jdbcURL = "jdbc:mysql://localhost:3306/userdb?useSSL=false";
+	private String jdbcURL = "jdbc:mysql://localhost:3306/toastmasters?useSSL=false";
 	private String jdbcUsername = "root";
 	private String jdbcPassword = "";
 

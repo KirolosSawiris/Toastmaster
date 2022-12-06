@@ -1,16 +1,10 @@
 package com.app.entity.model;
 
-/**
- * User.java
- * This is a model class represents a User entity
- * @author Ramesh Fadatare
- *
- */
 public class User {
-	protected int id;
-	protected String name;
-	protected String email;
-	protected String password;
+	private int id;
+	private String name;
+	private String email;
+	private String password;
 	
 	public User() {
 	}
