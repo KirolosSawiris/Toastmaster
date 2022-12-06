@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.app.entity.dao.USerDAO;
+import com.app.entity.dao.DAOfactory;
 import com.app.entity.model.User;
 
 
@@ -24,10 +24,10 @@ import com.app.entity.model.User;
 @WebServlet("/")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private USerDAO userDAO;
+	private DAOfactory factory;
 	
 	public void init() {
-		userDAO = new USerDAO();
+		factory = new DAOfactory();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -67,7 +67,7 @@ public class UserServlet extends HttpServlet {
 
 	private void listUser(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		List<User> listUser = userDAO.selectAllUsers();
+		List<User> listUser = factory.selectAllUsers();
 		request.setAttribute("listUser", listUser);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
 		dispatcher.forward(request, response);
@@ -82,7 +82,7 @@ public class UserServlet extends HttpServlet {
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		User existingUser = userDAO.selectUser(id);
+		User existingUser = factory.selectUser(id);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
 		request.setAttribute("user", existingUser);
 		dispatcher.forward(request, response);
@@ -95,7 +95,7 @@ public class UserServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		User newUser = new User(name, email, password);
-		userDAO.insertUser(newUser);
+		factory.insertUser(newUser);
 		response.sendRedirect("list");
 	}
 
@@ -107,14 +107,14 @@ public class UserServlet extends HttpServlet {
 		String password = request.getParameter("password");
 
 		User book = new User(id, name, email, password);
-		userDAO.updateUser(book);
+		factory.updateUser(book);
 		response.sendRedirect("list");
 	}
 
 	private void deleteUser(HttpServletRequest request, HttpServletResponse response) 
 			throws SQLException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		userDAO.deleteUser(id);
+		factory.deleteUser(id);
 		response.sendRedirect("list");
 
 	}

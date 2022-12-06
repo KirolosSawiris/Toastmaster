@@ -7,6 +7,7 @@ public class Meeting {
 	private String date;
 	private String start;
 	private String end;
+	private String speaker;
 	private String toastmaster;
 	private String ahCounter;
 	private String grammarian;
@@ -68,6 +69,12 @@ public class Meeting {
 	}
 	public void setEnd(String end) {
 		this.end = end;
+	}
+	public String getSpeaker() {
+		return speaker;
+	}
+	public void setSpeaker(String speaker) {
+		this.speaker = speaker;
 	}
 	public String getToastmaster() {
 		return toastmaster;
