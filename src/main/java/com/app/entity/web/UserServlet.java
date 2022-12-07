@@ -74,6 +74,9 @@ public class UserServlet extends HttpServlet {
 			case"/search":
 				meetingSearch(request, response);
 				break;
+			case"/speaker":
+				insertSpeaker(request, response);
+				break;
 			default:
 				listUser(request, response);
 				break;
@@ -90,10 +93,28 @@ public class UserServlet extends HttpServlet {
 		//dispatcher.forward(request, response);
 		response.sendRedirect("list");
 	}
+	private void insertSpeaker(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		request.setAttribute("username", ruser.getName());
+		int id = Integer.parseInt(request.getParameter("id"));
+		Meeting cmeeting = factory.selectMeeting(id);
+		if(cmeeting.getSpeaker() == null)
+		{
+		factory.insertSpeaker(id, ruser.getName());
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher("meeting.jsp");
+		request.setAttribute("meeting", cmeeting);
+		dispatcher.forward(request, response);
+		
+	}
 	private void meetinginfo(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		
-		
+		request.setAttribute("username", ruser.getName());
+		int id = Integer.parseInt(request.getParameter("id"));
+		Meeting selectedmeeting = factory.selectMeeting(id);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("meeting.jsp");
+		request.setAttribute("meeting", selectedmeeting);
+		dispatcher.forward(request, response);
 		
 	}
 	private void meetingSearch(HttpServletRequest request, HttpServletResponse response)

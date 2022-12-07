@@ -175,14 +175,14 @@ public class DAOfactory {
 		}
 		return rowUpdated;
 	}
-	public boolean insertSpeaker(Meeting meeting) throws SQLException
+	public boolean insertSpeaker(int id, String speaker) throws SQLException
 	{
 		boolean rowInserted;
 		System.out.println(INSERT_SPEAKER);
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SPEAKER);) {
-			preparedStatement.setString(1, meeting.getSpeaker());
-			preparedStatement.setInt(2, meeting.getId());
+			preparedStatement.setString(1, speaker);
+			preparedStatement.setInt(2, id);
 			rowInserted = preparedStatement.executeUpdate() > 0;
 			
 		}

@@ -27,8 +27,8 @@
           <a class="nav-link active" aria-current="page" href="<%=request.getContextPath()%>/list">Meetings</a>
         </li>
       </ul>
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <form method="post" action="search" class="d-flex navbar-nav me-auto mb-2 mb-lg-0">
+       &nbsp;&nbsp;&nbsp;&nbsp;
+      <form method="post" action="search" class="d-flex navbar-nav me-auto mb-2 mb-lg-0 w-50">
         <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
@@ -36,6 +36,12 @@
       <a class="d-flex navbar-nav me-auto mb-2 mb-lg-0">${username}</a>
       &nbsp;&nbsp;&nbsp;
        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+       <li class="nav-item">
+          <a class="nav-link" href="<%=request.getContextPath()%>/">registered meeting</a>
+        </li>
+       <li class="nav-item">
+          <a class="nav-link" href="<%=request.getContextPath()%>/">about us</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="<%=request.getContextPath()%>/logout">Logout</a>
         </li>
@@ -79,7 +85,7 @@
 
 						<tr>
 							<td><c:out value="${meeting.id}" /></td>
-							<td><a href="meeting?id=<c:out value='${meeting.name}' />">${meeting.name}</a></td>
+							<td><c:out value="${meeting.name}"/></td>
 							<td><c:out value="${meeting.location}" /></td>
 							<td><c:out value="${meeting.date}" /></td>
 							<td><c:out value="${meeting.start}" /></td>
@@ -88,7 +94,7 @@
 								&nbsp;&nbsp;&nbsp;&nbsp; <a class = "btn btn-danger"
 								href="delete?id=<c:out value='${meeting.id}' />">Delete</a>
 								&nbsp;&nbsp;&nbsp;&nbsp; <a class = "btn btn-primary"
-								href="delete?id=<c:out value='${meeting.id}' />">Register</a></td>
+								href="meeting?id=<c:out value='${meeting.id}' />">Register</a></td>
 						</tr>
 					</c:forEach>
 		
