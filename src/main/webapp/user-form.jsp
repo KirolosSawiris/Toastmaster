@@ -27,8 +27,8 @@
           <a class="nav-link active" aria-current="page" href="<%=request.getContextPath()%>/list">Meetings</a>
         </li>
       </ul>
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <form method="post" action="search" class="d-flex navbar-nav me-auto mb-2 mb-lg-0">
+       &nbsp;&nbsp;&nbsp;&nbsp;
+      <form method="post" action="search" class="d-flex navbar-nav me-auto mb-2 mb-lg-0 w-50">
         <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
@@ -36,6 +36,12 @@
       <a class="d-flex navbar-nav me-auto mb-2 mb-lg-0">${username}</a>
       &nbsp;&nbsp;&nbsp;
        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+       <li class="nav-item">
+          <a class="nav-link" href="<%=request.getContextPath()%>/">registered meeting</a>
+        </li>
+       <li class="nav-item">
+          <a class="nav-link" href="<%=request.getContextPath()%>/">about us</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="<%=request.getContextPath()%>/logout">Logout</a>
         </li>
@@ -83,19 +89,19 @@
 				</fieldset>
 
 				<fieldset class="form-group">
-					<label>Meeting Date</label> <input type="text"
+					<label>Meeting Date</label> <input type="date"
 						value="<c:out value='${meeting.date}' />" class="form-control"
 						name="date">
 				</fieldset>
 				
 				<fieldset class="form-group">
-					<label>Meeting start</label> <input type="text"
+					<label>Meeting start</label> <input type="time"
 						value="<c:out value='${meeting.start}' />" class="form-control"
 						name="start">
 				</fieldset>
 				
 				<fieldset class="form-group">
-					<label>Meeting end</label> <input type="text"
+					<label>Meeting end</label> <input type="time"
 						value="<c:out value='${meeting.end}' />" class="form-control"
 						name="end">
 				</fieldset>

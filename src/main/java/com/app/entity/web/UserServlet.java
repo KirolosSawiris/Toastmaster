@@ -136,6 +136,7 @@ public class UserServlet extends HttpServlet {
 				List<Meeting> allMeetings = factory.selectallmeetings();
 				List<Meeting> listMeeting = new ArrayList<>();
 				String search = request.getParameter("search");
+				request.setAttribute("search", search);
 				for (Meeting meeting : allMeetings)
 				{
 					if(meeting.getName().contains(search)) {
