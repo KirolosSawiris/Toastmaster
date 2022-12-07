@@ -12,19 +12,40 @@
 <body>
 
 	<header>
-		<nav class="navbar navbar-expand-md navbar-dark"
-			style="background-color: blue">
-			<div>
-				<a href="https://www.toastmasters.org/" class="navbar-brand"> Toasmasters Application </a>
-			</div>
-
-			<ul class="navbar-nav">
-				<li class ="float-right"><a href="<%=request.getContextPath()%>/list"
-					class="nav-link">Meetings</a></li>
-				<li class ="float-right"><a href="<%=request.getContextPath()%>/logout"
-					class="nav-link">Logout</a></li>
-			</ul>
-		</nav>
+		
+		
+		<nav class="navbar navbar-expand-md navbar-dark bg-gradient text-white" style="background-color: #13133a"> 
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <img class="navbar-brand" alt="icon" src="https://i.ibb.co/RBBrcy1/toastmasters-logo2x.png">
+      <a class="navbar-brand" href="#">Toasmasters Application</a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Meetings</a>
+        </li>
+      </ul>
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <form class="d-flex navbar-nav me-auto mb-2 mb-lg-0">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a class="d-flex navbar-nav me-auto mb-2 mb-lg-0">${username}</a>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="<%=request.getContextPath()%>/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+		
+		
+		
 	</header>
 	<br>
 
@@ -40,8 +61,8 @@
 					New Meeting</a>
 			</div>
 			<br>
-			<table class="table table-bordered">
-				<thead>
+			<table class="table table-striped">
+				<thead class="thead-dark">
 					<tr>
 						<th>ID</th>
 						<th>Name</th>
@@ -58,14 +79,16 @@
 
 						<tr>
 							<td><c:out value="${meeting.id}" /></td>
-							<td><c:out value="${meeting.name}" /></td>
+							<td><a href="meeting?id=<c:out value='${meeting.name}' />">${meeting.name}</a></td>
 							<td><c:out value="${meeting.location}" /></td>
 							<td><c:out value="${meeting.date}" /></td>
 							<td><c:out value="${meeting.start}" /></td>
 							<td><c:out value="${meeting.end}" /></td>
-							<td><a href="edit?id=<c:out value='${meeting.id}' />">Edit</a>
-								&nbsp;&nbsp;&nbsp;&nbsp; <a
-								href="delete?id=<c:out value='${meeting.id}' />">Delete</a></td>
+							<td><a class = "btn btn-secondary" href="edit?id=<c:out value='${meeting.id}' />">Edit</a>
+								&nbsp;&nbsp;&nbsp;&nbsp; <a class = "btn btn-danger"
+								href="delete?id=<c:out value='${meeting.id}' />">Delete</a>
+								&nbsp;&nbsp;&nbsp;&nbsp; <a class = "btn btn-primary"
+								href="delete?id=<c:out value='${meeting.id}' />">Register</a></td>
 						</tr>
 					</c:forEach>
 		

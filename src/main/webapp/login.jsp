@@ -623,7 +623,7 @@ label.valid {
 							<div class="form-group">
 								<label for="email"><i
 									class="zmdi zmdi-account material-icons-name"></i></label> <input
-									type="text" name="email" id="email"
+									type="email" name="email" id="email"
 									placeholder="Your email" />
 							</div>
 							<div class="form-group">

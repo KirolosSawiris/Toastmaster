@@ -61,8 +61,14 @@ public class UserServlet extends HttpServlet {
 			case "/update":
 				updateUser(request, response);
 				break;
+			case "/register":
+				registerUser(request, response);
+				break;
 			case"/logout":
 				logoutUser(request, response);
+				break;
+			case"/meeting":
+				meetinginfo(request, response);
 				break;
 			default:
 				listUser(request, response);
@@ -75,8 +81,38 @@ public class UserServlet extends HttpServlet {
 	private void logoutUser(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		ruser = null;
-		RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-		dispatcher.forward(request, response);
+		request.getSession().invalidate();
+		//RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+		//dispatcher.forward(request, response);
+		response.sendRedirect("list");
+	}
+	private void meetinginfo(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		
+		
+		
+	}
+	
+	private void registerUser(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String pass = request.getParameter("pass");
+		String repass = request.getParameter("re_pass");
+		System.out.println(pass);
+		if (pass.equals(repass))
+		{
+			User user = new User(name,email,pass);
+			factory.insertUser(user);
+			response.sendRedirect("list");
+		}
+		else {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("registration.jsp");
+			dispatcher.forward(request, response);
+			request.setAttribute("status", "failed");
+			//response.sendRedirect("register");
+		}
+		
 	}
 
 	private void listUser(HttpServletRequest request, HttpServletResponse response)
@@ -97,6 +133,7 @@ public class UserServlet extends HttpServlet {
 		if(ruser != null) {
 			List<Meeting> listMeeting = factory.selectallmeetings();
 			request.setAttribute("listMeeting", listMeeting);
+			request.setAttribute("username", ruser.getName());
 			RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
 			dispatcher.forward(request, response);
 		}
@@ -138,10 +175,6 @@ public class UserServlet extends HttpServlet {
 		String date = request.getParameter("date");
 		String start = request.getParameter("start");
 		String end = request.getParameter("end");
-		System.out.println(location);
-		System.out.println(date);
-		System.out.println(start);
-		System.out.println(end);
 
 		Meeting meeting = new Meeting(id, name, location, date, start, end);
 		factory.updateMeeting(meeting);

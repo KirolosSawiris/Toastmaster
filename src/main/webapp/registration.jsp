@@ -601,7 +601,6 @@ label.valid {
 </style>
 </head>
 <body>
-
 	<div class="main">
 
 		<!-- Sign up form -->
@@ -611,7 +610,7 @@ label.valid {
 					<div class="signup-form">
 						<h2 class="form-title">Sign up</h2>
 					
-						<form method="post" action="login" class="register-form"
+						<form method="post" action="register" class="register-form"
 							id="register-form">
 							<div class="form-group">
 								<label for="name"><i
@@ -650,6 +649,7 @@ label.valid {
 
 
 	</div>
+	
 
 </body>
 </html>
