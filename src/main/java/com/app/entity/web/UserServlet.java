@@ -1,6 +1,7 @@
 package com.app.entity.web;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -70,6 +71,9 @@ public class UserServlet extends HttpServlet {
 			case"/meeting":
 				meetinginfo(request, response);
 				break;
+			case"/search":
+				meetingSearch(request, response);
+				break;
 			default:
 				listUser(request, response);
 				break;
@@ -90,6 +94,38 @@ public class UserServlet extends HttpServlet {
 			throws SQLException, IOException, ServletException {
 		
 		
+		
+	}
+	private void meetingSearch(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		
+		if(ruser == null) {
+			String remail = request.getParameter("email");
+			String rpassword = request.getParameter("password");
+			ruser = factory.validateUser(remail, rpassword);
+			if (ruser == null)
+			{
+				request.setAttribute("status", "failed");
+				System.out.println("faild login");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+				dispatcher.forward(request, response);
+			}
+			}
+			if(ruser != null) {
+				List<Meeting> allMeetings = factory.selectallmeetings();
+				List<Meeting> listMeeting = new ArrayList<>();
+				String search = request.getParameter("search");
+				for (Meeting meeting : allMeetings)
+				{
+					if(meeting.getName().contains(search)) {
+						listMeeting.add(meeting);
+					}
+				}
+				request.setAttribute("listMeeting", listMeeting);
+				request.setAttribute("username", ruser.getName());
+				RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
+				dispatcher.forward(request, response);
+			}
 		
 	}
 	
@@ -141,12 +177,14 @@ public class UserServlet extends HttpServlet {
 
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setAttribute("username", ruser.getName());
 		RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
 		dispatcher.forward(request, response);
 	}
 
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
+		request.setAttribute("username", ruser.getName());
 		int id = Integer.parseInt(request.getParameter("id"));
 		Meeting existingMeeting = factory.selectMeeting(id);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");

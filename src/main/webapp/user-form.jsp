@@ -14,17 +14,35 @@
 <body>
 
 	<header>
-		<nav class="navbar navbar-expand-md navbar-dark"
-			style="background-color: #13133a">
-			<div>
-				<a href="https://www.toastmasters.org/" class="navbar-brand"> Toastmasters Application </a>
-			</div>
-
-			<ul class="navbar-nav">
-				<li><a href="<%=request.getContextPath()%>/list"
-					class="nav-link">Meetings</a></li>
-			</ul>
-		</nav>
+		<nav class="navbar navbar-expand-md navbar-dark bg-gradient text-white" style="background-color: #13133a"> 
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <img class="navbar-brand" alt="icon" src="https://i.ibb.co/RBBrcy1/toastmasters-logo2x.png">
+      <a class="navbar-brand" href="#">Toasmasters Application</a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="<%=request.getContextPath()%>/list">Meetings</a>
+        </li>
+      </ul>
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <form method="post" action="search" class="d-flex navbar-nav me-auto mb-2 mb-lg-0">
+        <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a class="d-flex navbar-nav me-auto mb-2 mb-lg-0">${username}</a>
+      &nbsp;&nbsp;&nbsp;
+       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="<%=request.getContextPath()%>/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 	</header>
 	<br>
 	<div class="container col-md-5">

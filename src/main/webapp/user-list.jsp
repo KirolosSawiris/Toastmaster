@@ -24,17 +24,17 @@
       <a class="navbar-brand" href="#">Toasmasters Application</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Meetings</a>
+          <a class="nav-link active" aria-current="page" href="<%=request.getContextPath()%>/list">Meetings</a>
         </li>
       </ul>
        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <form class="d-flex navbar-nav me-auto mb-2 mb-lg-0">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <form method="post" action="search" class="d-flex navbar-nav me-auto mb-2 mb-lg-0">
+        <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <a class="d-flex navbar-nav me-auto mb-2 mb-lg-0">${username}</a>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;
        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" href="<%=request.getContextPath()%>/logout">Logout</a>
