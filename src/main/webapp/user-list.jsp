@@ -15,13 +15,14 @@
 		<nav class="navbar navbar-expand-md navbar-dark"
 			style="background-color: blue">
 			<div>
-				<a href="https://www.xadmin.net" class="navbar-brand"> User
-					Management Application </a>
+				<a href="https://www.toastmasters.org/" class="navbar-brand"> Toasmasters Application </a>
 			</div>
 
 			<ul class="navbar-nav">
-				<li><a href="<%=request.getContextPath()%>/list"
-					class="nav-link">Users</a></li>
+				<li class ="float-right"><a href="<%=request.getContextPath()%>/list"
+					class="nav-link">Meetings</a></li>
+				<li class ="float-right"><a href="<%=request.getContextPath()%>/logout"
+					class="nav-link">Logout</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -31,12 +32,12 @@
 		<!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
 
 		<div class="container">
-			<h3 class="text-center">List of Users</h3>
+			<h3 class="text-center">List of Meetings</h3>
 			<hr>
 			<div class="container text-left">
 
 				<a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add
-					New User</a>
+					New Meeting</a>
 			</div>
 			<br>
 			<table class="table table-bordered">
@@ -44,23 +45,27 @@
 					<tr>
 						<th>ID</th>
 						<th>Name</th>
-						<th>Email</th>
-						<th>Password</th>
+						<th>Location</th>
+						<th>Date</th>
+						<th>Start</th>
+						<th>End</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 				
-					<c:forEach var="user" items="${listUser}">
+					<c:forEach var="meeting" items="${listMeeting}">
 
 						<tr>
-							<td><c:out value="${user.id}" /></td>
-							<td><c:out value="${user.name}" /></td>
-							<td><c:out value="${user.email}" /></td>
-							<td><c:out value="${user.password}" /></td>
-							<td><a href="edit?id=<c:out value='${user.id}' />">Edit</a>
+							<td><c:out value="${meeting.id}" /></td>
+							<td><c:out value="${meeting.name}" /></td>
+							<td><c:out value="${meeting.location}" /></td>
+							<td><c:out value="${meeting.date}" /></td>
+							<td><c:out value="${meeting.start}" /></td>
+							<td><c:out value="${meeting.end}" /></td>
+							<td><a href="edit?id=<c:out value='${meeting.id}' />">Edit</a>
 								&nbsp;&nbsp;&nbsp;&nbsp; <a
-								href="delete?id=<c:out value='${user.id}' />">Delete</a></td>
+								href="delete?id=<c:out value='${meeting.id}' />">Delete</a></td>
 						</tr>
 					</c:forEach>
 		

@@ -12,13 +12,7 @@ import com.app.entity.model.Meeting;
 import com.app.entity.model.User;
 
 
-/**
- * AbstractDAO.java This DAO class provides CRUD database operations for the
- * table users in the database.
- * 
- * @author Ramesh Fadatare
- *
- */
+
 public class DAOfactory {
 	private String jdbcURL = "jdbc:mysql://localhost:3306/toastmasters?useSSL=false";
 	private String jdbcUsername = "root";
@@ -29,6 +23,7 @@ public class DAOfactory {
 	private static final String SELECT_ALL_USERS = "select * from users";
 	private static final String DELETE_USERS_SQL = "delete from users where id = ?;";
 	private static final String UPDATE_USERS_SQL = "update users set name = ?,email= ?, password =? where id = ?;";
+	private static final String VALIDATE_USER = "select * from users where email = ? and password = ?";
 	
 	private static final String INSERT_MEETING = "INSERT INTO meetings" + "(name, location, date, start, end) VALUES " + " (?, ?, ?, ?, ?);";
 	private static final String SELECT_MEETING_BY_ID = "SELECT * FROM meetings WHERE id = ?;";
@@ -53,10 +48,8 @@ public class DAOfactory {
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return connection;
@@ -101,7 +94,7 @@ public class DAOfactory {
 				String evaluator = rs.getString("evaluator");
 				String timer = rs.getString("timer");
 				String speaker = rs.getString("speaker");
-				meeting = new Meeting(name, location, date, start, end);
+				meeting = new Meeting(id, name, location, date, start, end);
 				meeting.setAhCounter(ahCounter);
 				meeting.setGrammarian(grammarian);
 				meeting.setSpeaker(speaker);
@@ -126,6 +119,7 @@ public class DAOfactory {
 			ResultSet rs = preparedStatement.executeQuery();
 			
 			while (rs.next()) {
+				int id = rs.getInt("id");
 				String name = rs.getString("name");
 				String location = rs.getString("location");
 				String date = rs.getString("date");
@@ -137,7 +131,7 @@ public class DAOfactory {
 				String evaluator = rs.getString("evaluator");
 				String timer = rs.getString("timer");
 				String speaker = rs.getString("speaker");
-				Meeting meeting = new Meeting(name, location, date, start, end);
+				Meeting meeting = new Meeting(id, name, location, date, start, end);
 				meeting.setAhCounter(ahCounter);
 				meeting.setGrammarian(grammarian);
 				meeting.setSpeaker(speaker);
@@ -303,21 +297,40 @@ public class DAOfactory {
 		}
 		return user;
 	}
+	
+	public User validateUser(String uemail, String upassword) {
+		User user = null;
+		System.out.println(VALIDATE_USER);
+		try (Connection connection = getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(VALIDATE_USER);) {
+			preparedStatement.setString(1, uemail);
+			preparedStatement.setString(2, upassword);
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			if (rs.next()) {
+				int id = rs.getInt("id");
+				String name = rs.getString("name");
+				String email = rs.getString("email");
+				String password = rs.getString("password");
+				user = new User(id, name, email, password);
+			}
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		return user;
+	}
+
 
 	public List<User> selectAllUsers() {
 
-		// using try-with-resources to avoid closing resources (boiler plate code)
 		List<User> users = new ArrayList<>();
-		// Step 1: Establishing a Connection
 		try (Connection connection = getConnection();
 
-				// Step 2:Create a statement using connection object
 			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS);) {
 			System.out.println(preparedStatement);
-			// Step 3: Execute the query or update query
 			ResultSet rs = preparedStatement.executeQuery();
 
-			// Step 4: Process the ResultSet object.
 			while (rs.next()) {
 				int id = rs.getInt("id");
 				String name = rs.getString("name");

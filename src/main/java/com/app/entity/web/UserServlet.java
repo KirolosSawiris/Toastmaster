@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.app.entity.dao.DAOfactory;
+import com.app.entity.model.Meeting;
 import com.app.entity.model.User;
 
 
@@ -25,9 +26,13 @@ import com.app.entity.model.User;
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private DAOfactory factory;
+	boolean login = false;
+	User ruser;
+	
 	
 	public void init() {
 		factory = new DAOfactory();
+		//ruser = factory.validateUser(remail, rpassword);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -56,6 +61,9 @@ public class UserServlet extends HttpServlet {
 			case "/update":
 				updateUser(request, response);
 				break;
+			case"/logout":
+				logoutUser(request, response);
+				break;
 			default:
 				listUser(request, response);
 				break;
@@ -64,13 +72,34 @@ public class UserServlet extends HttpServlet {
 			throw new ServletException(ex);
 		}
 	}
+	private void logoutUser(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		ruser = null;
+		RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+		dispatcher.forward(request, response);
+	}
 
 	private void listUser(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		List<User> listUser = factory.selectAllUsers();
-		request.setAttribute("listUser", listUser);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
-		dispatcher.forward(request, response);
+		//List<User> listUser = factory.selectAllUsers();
+		if(ruser == null) {
+		String remail = request.getParameter("email");
+		String rpassword = request.getParameter("password");
+		ruser = factory.validateUser(remail, rpassword);
+		if (ruser == null)
+		{
+			request.setAttribute("status", "failed");
+			System.out.println("faild login");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+			dispatcher.forward(request, response);
+		}
+		}
+		if(ruser != null) {
+			List<Meeting> listMeeting = factory.selectallmeetings();
+			request.setAttribute("listMeeting", listMeeting);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
@@ -82,9 +111,9 @@ public class UserServlet extends HttpServlet {
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		User existingUser = factory.selectUser(id);
+		Meeting existingMeeting = factory.selectMeeting(id);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
-		request.setAttribute("user", existingUser);
+		request.setAttribute("meeting", existingMeeting);
 		dispatcher.forward(request, response);
 
 	}
@@ -92,10 +121,12 @@ public class UserServlet extends HttpServlet {
 	private void insertUser(HttpServletRequest request, HttpServletResponse response) 
 			throws SQLException, IOException {
 		String name = request.getParameter("name");
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		User newUser = new User(name, email, password);
-		factory.insertUser(newUser);
+		String location = request.getParameter("location");
+		String date = request.getParameter("date");
+		String start = request.getParameter("start");
+		String end = request.getParameter("end");
+		Meeting newMeeting = new Meeting(name, location, date, start, end);
+		factory.insertMeeting(newMeeting);
 		response.sendRedirect("list");
 	}
 
@@ -103,18 +134,24 @@ public class UserServlet extends HttpServlet {
 			throws SQLException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
+		String location = request.getParameter("location");
+		String date = request.getParameter("date");
+		String start = request.getParameter("start");
+		String end = request.getParameter("end");
+		System.out.println(location);
+		System.out.println(date);
+		System.out.println(start);
+		System.out.println(end);
 
-		User book = new User(id, name, email, password);
-		factory.updateUser(book);
+		Meeting meeting = new Meeting(id, name, location, date, start, end);
+		factory.updateMeeting(meeting);
 		response.sendRedirect("list");
 	}
 
 	private void deleteUser(HttpServletRequest request, HttpServletResponse response) 
 			throws SQLException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		factory.deleteUser(id);
+		factory.deleteMeeting(id);
 		response.sendRedirect("list");
 
 	}
