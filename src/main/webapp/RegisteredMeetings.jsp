@@ -59,13 +59,8 @@
 		<!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
 
 		<div class="container">
-			<h3 class="text-center">List of Meetings</h3>
+			<h3 class="text-center">List of Registered Meetings</h3>
 			<hr>
-			<div class="container text-left">
-
-				<a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add
-					New Meeting</a>
-			</div>
 			<br>
 			<table class="table table-striped">
 				<thead class="thead-dark">
@@ -90,14 +85,7 @@
 							<td><c:out value="${meeting.date}" /></td>
 							<td><c:out value="${meeting.start}" /></td>
 							<td><c:out value="${meeting.end}" /></td>
-							<td> <c:if test="${ID == '1'}">
-							<a class = "btn btn-secondary" href="edit?id=<c:out value='${meeting.id}' />">Edit</a>
-								&nbsp;&nbsp;&nbsp;&nbsp; <a class = "btn btn-danger"
-								href="delete?id=<c:out value='${meeting.id}' />">Delete</a>
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								</c:if>
-								<a class = "btn btn-primary"
-								href="meeting?id=<c:out value='${meeting.id}' />">Register</a></td>
+							<td><a class = "btn btn-danger"href="drop?id=<c:out value='${meeting.id}' />">Drop Meeting</a></td>
 						</tr>
 					</c:forEach>
 		

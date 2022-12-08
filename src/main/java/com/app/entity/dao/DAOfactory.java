@@ -27,6 +27,7 @@ public class DAOfactory {
 	
 	private static final String INSERT_MEETING = "INSERT INTO meetings" + "(name, location, date, start, end) VALUES " + " (?, ?, ?, ?, ?);";
 	private static final String SELECT_MEETING_BY_ID = "SELECT * FROM meetings WHERE id = ?;";
+	private static final String SELECT_MEETING_BY_User = "SELECT * FROM meetings WHERE speaker = ? or toastmaster = ? or ahCounter = ? or grammarian = ? or evaluator = ? or timer = ?;";
 	private static final String SELECT_ALL_MEETINGS = "SELECT * FROM meetings;";
 	private static final String DELETE_MEETING = "DELETE FROM meetings WHERE id = ?;";
 	private static final String UPDATE_MEETING = "update meetings set name = ?, location = ?, date = ?, start = ?, end = ? where id = ?;";
@@ -36,6 +37,12 @@ public class DAOfactory {
 	private static final String INSERT_EVALUATOR = "update meetings set evaluator = ? where id = ?;";
 	private static final String INSERT_AHCOUNTER = "update meetings set ahCounter = ? where id = ?;";
 	private static final String INSERT_GRAMMARIAN = "update meetings set grammarian = ? where id = ?;";
+	private static final String DELETE_SPEAKER = "update meetings set speaker = NULL where id = ? and speaker = ?;";
+	private static final String DELETE_TOASTMASTER = "update meetings set toastmaster = NULL where id = ? and toastmaster = ?;";
+	private static final String DELETE_TIMER = "update meetings set timer = NULL where id = ? and timer = ?;";
+	private static final String DELETE_EVALUATOR = "update meetings set evaluator = NULL where id = ? and evaluator = ?;";
+	private static final String DELETE_AHCOUNTER = "update meetings set ahCounter = NULL where id = ? and ahCounter = ?;";
+	private static final String DELETE_GRAMMARIAN = "update meetings set grammarian = NULL where id = ? and grammarian = ?;";
 	
 	
 
@@ -67,6 +74,65 @@ public class DAOfactory {
 			preparedStatement.setString(5, meeting.getEnd());
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		
+	}
+	
+	public void dropUser(int id, String user) throws SQLException
+	{
+		try (Connection connection = getConnection();
+				PreparedStatement preparedStatement1 = connection.prepareStatement(DELETE_SPEAKER);) {
+			preparedStatement1.setInt(1, id);
+			preparedStatement1.setString(2, user);
+			System.out.println(preparedStatement1);
+			preparedStatement1.executeUpdate();
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		try (Connection connection = getConnection();
+				PreparedStatement preparedStatement2 = connection.prepareStatement(DELETE_TOASTMASTER);) {
+			preparedStatement2.setInt(1, id);
+			preparedStatement2.setString(2, user);
+			System.out.println(preparedStatement2);
+			preparedStatement2.executeUpdate();
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		try (Connection connection = getConnection();
+				PreparedStatement preparedStatement3 = connection.prepareStatement(DELETE_TIMER);) {
+			preparedStatement3.setInt(1, id);
+			preparedStatement3.setString(2, user);
+			System.out.println(preparedStatement3);
+			preparedStatement3.executeUpdate();
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		try (Connection connection = getConnection();
+				PreparedStatement preparedStatement4 = connection.prepareStatement(DELETE_EVALUATOR);) {
+			preparedStatement4.setInt(1, id);
+			preparedStatement4.setString(2, user);
+			System.out.println(preparedStatement4);
+			preparedStatement4.executeUpdate();
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		try (Connection connection = getConnection();
+				PreparedStatement preparedStatement5 = connection.prepareStatement(DELETE_AHCOUNTER);) {
+			preparedStatement5.setInt(1, id);
+			preparedStatement5.setString(2, user);
+			System.out.println(preparedStatement5);
+			preparedStatement5.executeUpdate();
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		try (Connection connection = getConnection();
+				PreparedStatement preparedStatement6 = connection.prepareStatement(DELETE_GRAMMARIAN);) {
+			preparedStatement6.setInt(1, id);
+			preparedStatement6.setString(2, user);
+			System.out.println(preparedStatement6);
+			preparedStatement6.executeUpdate();
 		} catch (SQLException e) {
 			printSQLException(e);
 		}
@@ -107,6 +173,49 @@ public class DAOfactory {
 			printSQLException(e);
 		}
 		return meeting;
+	}
+	public List<Meeting> selectMeetingbyUser(String user) throws SQLException
+	{
+		List<Meeting> meetings = new ArrayList<>();
+		System.out.println(SELECT_MEETING_BY_User);
+		try (Connection connection = getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEETING_BY_User);) {
+			
+			preparedStatement.setString(1, user);
+			preparedStatement.setString(2, user);
+			preparedStatement.setString(3, user);
+			preparedStatement.setString(4, user);
+			preparedStatement.setString(5, user);
+			preparedStatement.setString(6, user);
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String name = rs.getString("name");
+				String location = rs.getString("location");
+				String date = rs.getString("date");
+				String start = rs.getString("start");
+				String end = rs.getString("end");
+				String toastmaster = rs.getString("toastmaster");
+				String ahCounter = rs.getString("ahCounter");
+				String grammarian = rs.getString("grammarian");
+				String evaluator = rs.getString("evaluator");
+				String timer = rs.getString("timer");
+				String speaker = rs.getString("speaker");
+				Meeting meeting = new Meeting(id, name, location, date, start, end);
+				meeting.setAhCounter(ahCounter);
+				meeting.setGrammarian(grammarian);
+				meeting.setSpeaker(speaker);
+				meeting.setTimer(timer);
+				meeting.setEvaluator(evaluator);
+				meeting.setToastmaster(toastmaster);
+				meetings.add(meeting);
+			}
+			
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		return meetings;
 	}
 	public List<Meeting> selectallmeetings() throws SQLException
 	{
@@ -188,71 +297,71 @@ public class DAOfactory {
 		}
 		return rowInserted;
 	}
-	public boolean insertTimer(Meeting meeting) throws SQLException
+	public boolean insertTimer(int id, String timer) throws SQLException
 	{
 		boolean rowInserted;
 		System.out.println(INSERT_TIMER);
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TIMER);) {
 		
-			preparedStatement.setString(1, meeting.getTimer());
-			preparedStatement.setInt(2, meeting.getId());
+			preparedStatement.setString(1, timer);
+			preparedStatement.setInt(2, id);
 			rowInserted = preparedStatement.executeUpdate() > 0;
 			
 		}
 		return rowInserted;
 		
 	}
-	public boolean insertToasmaster(Meeting meeting) throws SQLException
+	public boolean insertToasmaster(int id, String toastmaster) throws SQLException
 	{
 		boolean rowInserted;
 		System.out.println(INSERT_TOASTMASTER);
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TOASTMASTER);) {
-			preparedStatement.setString(1, meeting.getToastmaster());
-			preparedStatement.setInt(2, meeting.getId());
+			preparedStatement.setString(1, toastmaster);
+			preparedStatement.setInt(2, id);
 			rowInserted = preparedStatement.executeUpdate() > 0;
 			
 		}
 		return rowInserted;
 	}
-	public boolean insertAhCounter(Meeting meeting) throws SQLException
+	public boolean insertAhCounter(int id, String ahcounter) throws SQLException
 	{
 		boolean rowInserted;
 		System.out.println(INSERT_AHCOUNTER);
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_AHCOUNTER);) {
 			
-			preparedStatement.setString(1, meeting.getAhCounter());
-			preparedStatement.setInt(2, meeting.getId());
+			preparedStatement.setString(1, ahcounter);
+			preparedStatement.setInt(2, id);
 			rowInserted = preparedStatement.executeUpdate() > 0;
 			
 		}
 		return rowInserted;
 	}
-	public boolean insertEvaluator(Meeting meeting) throws SQLException
+	public boolean insertEvaluator(int id, String evaluator) throws SQLException
 	{
 		boolean rowInserted;
 		System.out.println(INSERT_EVALUATOR);
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EVALUATOR);) {
 			
-			preparedStatement.setString(1, meeting.getEvaluator());
-			preparedStatement.setInt(2, meeting.getId());
+			preparedStatement.setString(1, evaluator);
+			preparedStatement.setInt(2, id);
 			rowInserted = preparedStatement.executeUpdate() > 0;
 			
 		}
 		return rowInserted;
 	}
-	public boolean insertGrammarian(Meeting meeting) throws SQLException
+	public boolean insertGrammarian(int id, String grammarian) throws SQLException
 	{
 		boolean rowInserted;
 		System.out.println(INSERT_GRAMMARIAN);
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GRAMMARIAN);) {
 			
-			preparedStatement.setString(1, meeting.getGrammarian());
-			preparedStatement.setInt(2, meeting.getId());
+			preparedStatement.setString(1, grammarian);
+			preparedStatement.setInt(2, id);
 			rowInserted = preparedStatement.executeUpdate() > 0;
 			
 		}

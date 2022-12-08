@@ -29,21 +29,21 @@
       </ul>
        &nbsp;&nbsp;&nbsp;&nbsp;
       <form method="post" action="search" class="d-flex navbar-nav me-auto mb-2 mb-lg-0 w-50">
-        <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
+        <input class="form-control me-2" type="search" placeholder="Search" name="search"  value="${search}" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <a class="d-flex navbar-nav me-auto mb-2 mb-lg-0">${username}</a>
       &nbsp;&nbsp;&nbsp;
        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
        <li class="nav-item">
-          <a class="nav-link" href="<%=request.getContextPath()%>/">registered meeting</a>
-        </li>
+          <a class="nav-link" href="<%=request.getContextPath()%>/registeredmeetings">Registered Meetings</a>
+        </li> 	
        <li class="nav-item">
-          <a class="nav-link" href="<%=request.getContextPath()%>/">about us</a>
+          <a class="nav-link" href="https://www.toastmasters.org/resources/meeting-roles-and-responsibilities">Roles</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<%=request.getContextPath()%>/logout">Logout</a>
+          <a class="nav-link" href="<%=request.getContextPath()%>/logout"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log Out</a>
         </li>
       </ul>
     </div>

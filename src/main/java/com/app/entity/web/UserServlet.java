@@ -74,8 +74,29 @@ public class UserServlet extends HttpServlet {
 			case"/search":
 				meetingSearch(request, response);
 				break;
+			case"/toastmaster":
+				insertToastmaster(request, response);
+				break;
+			case"/timer":
+				insertTimer(request, response);
+				break;
+			case"/ahcounter":
+				insertAhCounter(request, response);
+				break;
+			case"/grammarian":
+				insertGrammarian(request, response);
+				break;
+			case"/evaluator":
+				insertEvaluator(request, response);
+				break;
 			case"/speaker":
 				insertSpeaker(request, response);
+				break;
+			case"/drop":
+				dropMeeting(request, response);
+				break;
+			case"/registeredmeetings":
+				registeredMeetings(request, response);
 				break;
 			default:
 				listUser(request, response);
@@ -93,6 +114,22 @@ public class UserServlet extends HttpServlet {
 		//dispatcher.forward(request, response);
 		response.sendRedirect("list");
 	}
+	private void registeredMeetings(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		
+		List<Meeting> RegisteredMeeting = factory.selectMeetingbyUser(ruser.getName());
+		request.setAttribute("listMeeting", RegisteredMeeting);
+		request.setAttribute("username", ruser.getName());
+		RequestDispatcher dispatcher = request.getRequestDispatcher("RegisteredMeetings.jsp");
+		dispatcher.forward(request, response);
+	}
+	private void dropMeeting(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		factory.dropUser(id, ruser.getName());
+		System.out.println(ruser.getName());
+		response.sendRedirect("registeredmeetings");
+	}
 	private void insertSpeaker(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		request.setAttribute("username", ruser.getName());
@@ -107,6 +144,76 @@ public class UserServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 		
 	}
+	private void insertToastmaster(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		request.setAttribute("username", ruser.getName());
+		int id = Integer.parseInt(request.getParameter("id"));
+		Meeting cmeeting = factory.selectMeeting(id);
+		if(cmeeting.getToastmaster() == null)
+		{
+		factory.insertToasmaster(id, ruser.getName());
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher("meeting.jsp");
+		request.setAttribute("meeting", cmeeting);
+		dispatcher.forward(request, response);
+	}
+	private void insertTimer(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		request.setAttribute("username", ruser.getName());
+		int id = Integer.parseInt(request.getParameter("id"));
+		Meeting cmeeting = factory.selectMeeting(id);
+		if(cmeeting.getTimer() == null)
+		{
+		factory.insertTimer(id, ruser.getName());
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher("meeting.jsp");
+		request.setAttribute("meeting", cmeeting);
+		dispatcher.forward(request, response);
+		
+	}
+	private void insertGrammarian(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		request.setAttribute("username", ruser.getName());
+		int id = Integer.parseInt(request.getParameter("id"));
+		Meeting cmeeting = factory.selectMeeting(id);
+		if(cmeeting.getGrammarian() == null)
+		{
+		factory.insertGrammarian(id, ruser.getName());
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher("meeting.jsp");
+		request.setAttribute("meeting", cmeeting);
+		dispatcher.forward(request, response);
+		
+	}
+	private void insertEvaluator(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		request.setAttribute("username", ruser.getName());
+		int id = Integer.parseInt(request.getParameter("id"));
+		Meeting cmeeting = factory.selectMeeting(id);
+		if(cmeeting.getEvaluator() == null)
+		{
+		factory.insertEvaluator(id, ruser.getName());
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher("meeting.jsp");
+		request.setAttribute("meeting", cmeeting);
+		dispatcher.forward(request, response);
+		
+	}
+	private void insertAhCounter(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		request.setAttribute("username", ruser.getName());
+		int id = Integer.parseInt(request.getParameter("id"));
+		Meeting cmeeting = factory.selectMeeting(id);
+		if(cmeeting.getAhCounter() == null)
+		{
+		factory.insertAhCounter(id, ruser.getName());
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher("meeting.jsp");
+		request.setAttribute("meeting", cmeeting);
+		dispatcher.forward(request, response);
+		
+	}
+	
 	private void meetinginfo(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		request.setAttribute("username", ruser.getName());
@@ -192,6 +299,7 @@ public class UserServlet extends HttpServlet {
 			List<Meeting> listMeeting = factory.selectallmeetings();
 			request.setAttribute("listMeeting", listMeeting);
 			request.setAttribute("username", ruser.getName());
+			request.setAttribute("ID", ruser.getId());
 			RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
 			dispatcher.forward(request, response);
 		}
