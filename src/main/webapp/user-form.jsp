@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>Toastmasters Application</title>
+<title>Toastmasters</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -64,10 +64,10 @@
 				<caption>
 					<h2>
 						<c:if test="${meeting != null}">
-            			Edit User
+            			Edit Meeting
             		</c:if>
 						<c:if test="${meeting == null}">
-            			Add New User
+            			Add New Meeting
             		</c:if>
 					</h2>
 				</caption>
